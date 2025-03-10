@@ -6,7 +6,7 @@
 
 if "%~1"=="" goto usage
 
-set "ENV_DIR=D:\Dev\PythonOnArm64\Python_Envs"
+set "ENV_DIR=%Python_Env_Dir%"
 set "command=%~1"
 shift
 
@@ -22,7 +22,7 @@ call :cmd_default
 goto :EOF
 
 :usage
-echo Pyenv      -       Python virtual environment manager
+echo Pyenv      -       Python virtual environment manager (v1.1)
 echo created by -       Lovanto George
 echo --- --- --- --- --- --- --- --- --- --- --- --- 
 echo Type "pyenv help" for usage instructions.
@@ -44,7 +44,7 @@ if not exist "%ENV_DIR%" (
     echo The specified environment directory does not exist: "%ENV_DIR%"
     exit /b 1
 )
-echo Listing Python virtual environments in "%ENV_DIR%"...
+echo Listing Python virtual environments...
 echo --- --- --- --- --- --- --- --- --- --- --- --- 
 for /d %%D in ("%ENV_DIR%\*") do echo "%%~nxD"
 echo --- --- --- --- --- --- --- --- --- --- --- --- 
@@ -101,9 +101,9 @@ if not "%~2"=="" (
             echo Current Recorded Active environment is: "%env_active%"
         )
         echo --- --- --- --- --- --- --- --- --- --- --- --- 
-        echo Pyenv will try to deactivate current environment with user inputted env name!
-        echo Deactivating environment: "%user_inputted_env%"
-        call "%TARGET_DIR%"
+        echo Pyenv will try to deactivate current environment with Path variables!
+        echo Deactivating potentially active environment: "%VIRTUAL_ENV%"
+        call "%VIRTUAL_ENV%/Scripts/deactivate.bat"
         set "env_active="
         exit /b 1
     )
